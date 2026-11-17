@@ -1,25 +1,25 @@
-# Local development PostgreSQL for Milestone 2a+.
-# Requires Docker Desktop (or another local Docker engine) running.
+# Optional local PostgreSQL (when a local Docker engine is available).
+# Preferred development path: Mac mini Postgres + SSH tunnel (see README).
 #
+#   cp .env.example .env   # set POSTGRES_PASSWORD / DATABASE_URL
 #   pnpm db:up
 #   pnpm db:migrate
-#   pnpm db:down
 
 services:
   postgres:
     image: postgres:16-alpine
     container_name: tinker-index-postgres
     restart: unless-stopped
-    ports:
-      - '5432:5432'
     environment:
-      POSTGRES_USER: tinker
-      POSTGRES_PASSWORD: tinker
-      POSTGRES_DB: tinker_index
+      POSTGRES_USER: ${POSTGRES_USER:-tinker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-tinker_index}
+    ports:
+      - '127.0.0.1:5432:5432'
     volumes:
       - tinker_index_pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U tinker -d tinker_index']
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
       interval: 5s
       timeout: 5s
       retries: 10

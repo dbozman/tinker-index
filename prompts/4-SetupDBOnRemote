@@ -1,0 +1,57 @@
+We're completing Tinker Index Milestone 2a using PostgreSQL hosted in Docker on my Mac mini.
+
+SSH access from my development Mac is confirmed:
+
+ssh username@hostname
+
+The Mac mini already has Docker running.
+
+Objective: Configure and validate the existing PostgreSQL development setup using the remote Mac mini instead of local Docker Desktop.
+
+Requirements:
+
+Inspect the existing Docker Compose, Prisma, and environment configurations.
+
+Connect to the Mac mini over SSH and inspect its existing Docker containers, ports, and volumes without modifying them.
+
+Check whether PostgreSQL is already running and whether it can safely be reused or if a dedicated Tinker Index container is preferable.
+
+Recommend a dedicated PostgreSQL container with a persistent volume, unless an existing suitable development instance is available.
+
+Bind PostgreSQL to 127.0.0.1 on the Mac mini, using an available host port.
+
+Connect from my development Mac using an SSH tunnel, preferably mapping the database to localhost:5432.
+
+Use dedicated development credentials stored outside Git.
+
+Update the local development documentation and .env.example as necessary.
+
+Provide convenient commands for starting the SSH tunnel, running migrations, and testing connectivity.
+
+Validate Prisma connectivity, database migrations, NestJS health checks, and integration tests.
+
+Security and safety constraints:
+
+Do not expose PostgreSQL to the internet.
+
+Do not modify or stop unrelated Docker containers.
+
+Do not overwrite existing databases or Docker volumes.
+
+Do not expose passwords or secrets in logs.
+
+Do not install Docker Desktop on my development Mac.
+
+Do not change production infrastructure.
+
+Do not begin Milestone 2b.
+
+Execution workflow:
+
+First, perform read-only inspection of the Mac mini and existing repository configuration.
+
+Present the proposed Docker, networking, and credential configuration for approval before making changes.
+
+After approval, implement and validate the setup.
+
+Do not commit or push changes until I explicitly authorize it.

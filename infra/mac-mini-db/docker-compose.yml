@@ -1,0 +1,38 @@
+# Dedicated Tinker Index development PostgreSQL for the Mac mini.
+# Bind to loopback only. Access from the laptop via SSH tunnel.
+#
+# On the Mac mini:
+#   cd ~/Projects/tinker-index-db
+#   cp .env.example .env   # set real POSTGRES_PASSWORD
+#   docker compose up -d
+#
+# On the development Mac:
+#   pnpm db:tunnel
+#   DATABASE_URL=postgresql://tinker:<password>@localhost:5432/tinker_index
+
+name: tinker-index
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tinker-index-postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tinker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-tinker_index}
+    ports:
+      - '127.0.0.1:5436:5432'
+    volumes:
+      - tinker_index_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tinker_index_pg_data:
+    name: tinker_index_pg_data

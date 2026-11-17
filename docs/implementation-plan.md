@@ -71,9 +71,10 @@ pnpm dev:web    # serves stub home
 
 ```bash
 pnpm install
-cp .env.example .env
-pnpm db:up
-pnpm db:migrate
+cp .env.example .env          # set real secrets locally (gitignored)
+pnpm db:up:remote             # dedicated Postgres on Mac mini
+pnpm db:tunnel                # localhost:5432 -> mini 127.0.0.1:5436
+pnpm db:migrate:deploy
 pnpm lint
 pnpm typecheck
 pnpm test
@@ -83,3 +84,9 @@ pnpm dev:api
 # GET /api/v1/health        → 200
 # GET /api/v1/health/ready  → 200 when DB is up
 ```
+
+### Development database topology
+
+- Preferred: Mac mini Docker Postgres bound to `127.0.0.1:5436`, accessed via SSH tunnel to laptop `localhost:5432`.
+- Compose template: [`infra/mac-mini-db/`](../infra/mac-mini-db/).
+- Do not reuse unrelated mini containers/volumes.

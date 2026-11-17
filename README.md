@@ -19,46 +19,70 @@ AI-powered DIY project discovery platform. Architecture: [`docs/architecture.md`
 ## Repository layout
 
 ```text
-apps/web              Public Angular site (+ admin later)
-apps/api              NestJS REST API (Prisma schema/migrations)
-apps/worker           Background job entry point
-packages/contracts    Shared types / contracts
-docs/                 Architecture, plan, ADRs, conventions
-docker-compose.yml    Local PostgreSQL
+apps/web                 Public Angular site (+ admin later)
+apps/api                 NestJS REST API (Prisma schema/migrations)
+apps/worker              Background job entry point
+packages/contracts       Shared types / contracts
+infra/mac-mini-db        Compose template for Mac mini Postgres
+scripts/                 SSH tunnel / remote DB helpers
+docs/                    Architecture, plan, ADRs, conventions
+docker-compose.yml       Optional local Postgres (if a local Docker engine exists)
 ```
 
 ## Prerequisites
 
 - Node.js 24 (`nvm use` reads `.nvmrc`)
 - pnpm 10+
-- Docker Desktop (or another local Docker engine) for PostgreSQL
+- SSH access to the Mac mini (`username@hostname.local`) for the preferred DB path
 
-## Quick start
+## Quick start (preferred: Mac mini Postgres + SSH tunnel)
 
 ```bash
 pnpm install
 cp .env.example .env
-pnpm db:up
-pnpm db:migrate
+# Put the real POSTGRES_PASSWORD / DATABASE_URL in .env (never commit it)
+
+pnpm db:up:remote   # starts dedicated container on the Mac mini (once)
+pnpm db:tunnel      # keep this terminal open (localhost:5432 -> mini:5436)
+
+# In another terminal:
+pnpm db:migrate:deploy
 pnpm build
 pnpm test
+pnpm test:e2e
+pnpm dev:api
 ```
 
-### Local PostgreSQL
+### SSH tunnel details
 
-The simplest reliable local setup is Docker Compose:
+| Side | Address |
+|---|---|
+| Mac mini Docker publish | `127.0.0.1:5436` only (not internet-facing) |
+| Laptop via tunnel | `localhost:5432` |
+| Database | `tinker_index` |
+| User | `tinker` |
+
+Convenient commands:
 
 ```bash
-pnpm db:up          # starts postgres:16-alpine on localhost:5432
-pnpm db:logs        # follow container logs
-pnpm db:down        # stop the container
+pnpm db:tunnel        # ssh -N -L 5432:127.0.0.1:5436 …
+pnpm db:up:remote     # docker compose up -d on the mini
+pnpm db:down:remote   # docker compose stop on the mini (this project only)
 ```
 
-Default connection string (also in `.env.example`):
+Compose files for the mini live in [`infra/mac-mini-db/`](infra/mac-mini-db/) and are deployed to `~/Projects/tinker-index-db` on the mini.
 
-```text
-DATABASE_URL=postgresql://tinker:tinker@localhost:5432/tinker_index
+### Optional local Docker Postgres
+
+If you later have a local Docker engine:
+
+```bash
+pnpm db:up
+pnpm db:logs
+pnpm db:down
 ```
+
+Set `POSTGRES_PASSWORD` in `.env` first. Local Compose also binds to `127.0.0.1` only.
 
 ### Prisma commands
 
@@ -71,6 +95,7 @@ pnpm db:migrate:deploy     # apply existing migrations (CI/production-style)
 ### Start the API and verify connectivity
 
 ```bash
+pnpm db:tunnel   # separate terminal
 pnpm dev:api
 ```
 
@@ -97,8 +122,6 @@ pnpm dev:worker   # application-context worker stub
 pnpm dev:web      # http://localhost:4200
 ```
 
-Copy `.env.example` to `.env` for local placeholders. Do not commit secrets.
-
 ## Validation scripts
 
 | Script | Purpose |
@@ -106,7 +129,7 @@ Copy `.env.example` to `.env` for local placeholders. Do not commit secrets.
 | `pnpm lint` | ESLint across workspace packages |
 | `pnpm typecheck` | TypeScript checks (generates Prisma Client first) |
 | `pnpm test` | Unit tests |
-| `pnpm test:e2e` | API e2e + DB integration (integration skips without `DATABASE_URL`) |
+| `pnpm test:e2e` | API e2e + DB integration (needs tunnel + `DATABASE_URL`) |
 | `pnpm test:db` | Database integration tests only |
 | `pnpm build` | Production builds |
 
