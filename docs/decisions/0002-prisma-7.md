@@ -1,8 +1,8 @@
 # ADR 0002 — Use Prisma 7 for PostgreSQL access
 
-- **Status:** Accepted (install deferred to Milestone 2)
+- **Status:** Accepted and implemented in Milestone 2a
 - **Date:** 2026-11-15
-- **Milestone:** M1 decision / M2 implementation
+- **Milestone:** M1 decision / M2a implementation
 
 ## Context
 
@@ -22,4 +22,6 @@ Use **Prisma 7** with `@prisma/adapter-pg` when database work begins in Mileston
 
 - ESM-oriented client generation and explicit adapter wiring are required.
 - Node 24 and TypeScript 5.9 satisfy Prisma 7 prerequisites.
-- No Prisma packages are installed in Milestone 1.
+- Prisma Client is generated to `apps/api/src/generated/prisma` (gitignored) via `prisma-client` + `moduleFormat = "cjs"`.
+- CLI configuration lives in `apps/api/prisma.config.ts`.
+- Local development uses Docker Compose PostgreSQL 16; CI uses a Postgres service container.

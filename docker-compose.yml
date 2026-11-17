@@ -1,0 +1,28 @@
+# Local development PostgreSQL for Milestone 2a+.
+# Requires Docker Desktop (or another local Docker engine) running.
+#
+#   pnpm db:up
+#   pnpm db:migrate
+#   pnpm db:down
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tinker-index-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: tinker
+      POSTGRES_PASSWORD: tinker
+      POSTGRES_DB: tinker_index
+    volumes:
+      - tinker_index_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tinker -d tinker_index']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tinker_index_pg_data:

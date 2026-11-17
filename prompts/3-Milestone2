@@ -1,0 +1,112 @@
+# Tinker Index — Implement Milestone 2a: Database Foundation
+
+You are the lead software engineer implementing Tinker Index.
+
+Milestone 1 established our Angular/NestJS monorepo, shared contracts, testing infrastructure, and CI/CD foundation.
+
+We are now beginning **Milestone 2a: Database + Health**.
+
+## Step 1 — Implement the Database Foundation
+
+Implement PostgreSQL integration with Prisma.
+
+Requirements:
+
+1. Use the Prisma version approved in our architecture decision records.
+2. Follow the appropriate Prisma configuration and database adapter conventions.
+3. Keep database access within the NestJS backend.
+4. Create a reusable Prisma module and service with proper connection lifecycle management.
+5. Configure database connection settings through environment variables.
+6. Provide an `.env.example` with placeholders only.
+7. Create the initial Prisma schema and migration infrastructure.
+8. Do not create the complete Tinker Index domain model yet. That belongs in Milestone 2b.
+9. Do not introduce Redis, message brokers, microservices, or unnecessary infrastructure.
+
+Use a local PostgreSQL development database. Recommend the simplest reliable local setup.
+
+Do not provision production infrastructure yet.
+
+## Step 2 — Database Health Checks
+
+Extend the existing NestJS health endpoint.
+
+It should distinguish between:
+
+- Application running and healthy.
+- Application running but database unavailable.
+- Database connectivity healthy.
+
+Implement appropriate health/readiness behavior and HTTP status codes.
+
+Do not expose connection strings, credentials, or sensitive database details in API responses.
+
+## Step 3 — Testing
+
+Add automated tests for:
+
+- Prisma module initialization.
+- Database connectivity and failure handling.
+- Health endpoint responses.
+- Application startup behavior when PostgreSQL is unavailable.
+
+Use the existing testing framework.
+
+Mock dependencies in unit tests where appropriate, but include a real PostgreSQL integration test for validating connectivity and migrations.
+
+Ensure database-dependent tests are isolated from production data.
+
+## Step 4 — Developer Experience
+
+Update the README with:
+
+- Local PostgreSQL prerequisites.
+- Database configuration.
+- Prisma migration commands.
+- How to start the API.
+- How to verify database connectivity.
+- How to run tests.
+
+Add convenient pnpm scripts where useful.
+
+Keep setup simple and repeatable.
+
+## Step 5 — Validation
+
+Run:
+
+- Dependency installation.
+- Lint.
+- Typecheck.
+- Unit tests.
+- Database integration tests.
+- Production builds.
+- API health endpoint checks.
+
+Resolve failures before considering the milestone complete.
+
+## Step 6 — Completion Report
+
+When finished, summarize:
+
+1. Files created or modified.
+2. Dependencies added.
+3. Database configuration.
+4. Migration status.
+5. Test results.
+6. Any architectural deviations.
+7. Any unresolved issues.
+
+Update `docs/implementation-plan.md` to reflect verified progress.
+
+## Important Constraints
+
+- Implement **Milestone 2a only**.
+- Do not begin Milestone 2b.
+- Do not implement project catalog APIs.
+- Do not implement Hermes integration.
+- Do not implement administrative functionality.
+- Do not deploy to production.
+- Do not commit or push changes without approval.
+- Do not expand the scope beyond what is necessary.
+
+The goal is a clean, tested PostgreSQL and Prisma foundation that is ready for the Tinker Index domain model.

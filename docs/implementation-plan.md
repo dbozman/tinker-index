@@ -7,7 +7,7 @@ Phased milestones derived from [`architecture.md`](architecture.md) §16 and the
 | ID | Name | Acceptance |
 |---|---|---|
 | M1 | Repository foundation | `pnpm install`, lint, typecheck, test, and build succeed; stub apps start |
-| M2a | Database + health | Prisma migrations apply; `/health` uses DB readiness |
+| M2a | Database + health | Prisma migrations apply; `/health` and `/health/ready` report DB status |
 | M2b | Catalog API | Seeded projects/categories returned from public GET APIs |
 | M3a | Design + home | Local home renders via SSR/prerender |
 | M3b | Public catalog UX | Browse, detail, categories, search/filter + SEO metadata |
@@ -48,4 +48,38 @@ pnpm build
 pnpm dev:api    # GET /api/v1/health
 pnpm dev:worker # logs ready
 pnpm dev:web    # serves stub home
+```
+
+## Milestone 2a — Database + health (complete)
+
+### In scope
+
+- PostgreSQL via Docker Compose (`postgres:16-alpine`)
+- Prisma 7 + `@prisma/adapter-pg` under `apps/api`
+- Minimal `SchemaMeta` model and initial migration (no catalog domain model)
+- Global Nest `PrismaModule` / `PrismaService` with connect lifecycle
+- Liveness `GET /api/v1/health` and readiness `GET /api/v1/health/ready`
+- Unit, e2e, and real PostgreSQL integration tests
+- README + pnpm database scripts
+
+### Out of scope
+
+- Project/category/catalog APIs (Milestone 2b)
+- Hermes, admin, R2, production Railway provisioning
+
+### Verification
+
+```bash
+pnpm install
+cp .env.example .env
+pnpm db:up
+pnpm db:migrate
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:e2e
+pnpm build
+pnpm dev:api
+# GET /api/v1/health        → 200
+# GET /api/v1/health/ready  → 200 when DB is up
 ```

@@ -15,6 +15,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tinker
+          POSTGRES_PASSWORD: tinker
+          POSTGRES_DB: tinker_index
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tinker -d tinker_index"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://tinker:tinker@localhost:5432/tinker_index
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,14 +51,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Apply migrations
+        run: pnpm db:migrate:deploy
+
       - name: Lint
         run: pnpm lint
 
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Test
+      - name: Unit tests
         run: pnpm test
+
+      - name: API e2e and database integration tests
+        run: pnpm test:e2e
 
       - name: Build
         run: pnpm build

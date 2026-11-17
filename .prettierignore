@@ -9,3 +9,4 @@ test-results
 playwright-report
 *.tsbuildinfo
 apps/*/src/generated
+apps/api/src/generated

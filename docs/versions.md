@@ -1,6 +1,6 @@
 # Locked dependency versions
 
-Documented as of Milestone 1 setup (2026-11-15). Exact resolved versions live in `pnpm-lock.yaml`.
+Documented as of Milestone 2a (2026-11-16). Exact resolved versions live in `pnpm-lock.yaml`.
 
 | Package / runtime | Selected version | Notes |
 |---|---|---|
@@ -9,7 +9,8 @@ Documented as of Milestone 1 setup (2026-11-15). Exact resolved versions live in
 | TypeScript | ~5.9.3 | Required by Angular 21 (`>=5.9 <6`) |
 | Angular | 21.2.x | Hybrid SSR/SSG via `@angular/ssr` |
 | NestJS | 12.5.x | See ADR 0001 (architecture listed 11) |
-| Prisma | 7.x (not installed yet) | See ADR 0002; arrives in Milestone 2 |
+| Prisma | 7.10.x | See ADR 0002; `@prisma/adapter-pg` + `pg` |
+| PostgreSQL | 16 (Docker Compose) | Local development database |
 | Vitest | 4.x | Unit tests for web, api, and worker (NestJS 12 ESM-friendly) |
 | ESLint | 9.x | Flat config |
 | Prettier | 3.x | Root formatting |
