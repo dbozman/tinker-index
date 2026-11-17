@@ -1,0 +1,24 @@
+{
+  "name": "tinker-index",
+  "private": true,
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": "^24.0.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev:web": "pnpm --filter @tinker-index/web start",
+    "dev:api": "pnpm --filter @tinker-index/api start:dev",
+    "dev:worker": "pnpm --filter @tinker-index/worker start:dev",
+    "build": "pnpm -r --if-present run build",
+    "lint": "pnpm -r --if-present run lint",
+    "typecheck": "pnpm --filter @tinker-index/contracts build && pnpm -r --if-present run typecheck",
+    "test": "pnpm --filter @tinker-index/contracts build && pnpm -r --if-present run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3"
+  }
+}

@@ -1,0 +1,11 @@
+dist
+build
+.tmp
+.angular
+coverage
+node_modules
+pnpm-lock.yaml
+test-results
+playwright-report
+*.tsbuildinfo
+apps/*/src/generated

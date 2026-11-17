@@ -1,0 +1,19 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #1a1a1a;
+  background:
+    radial-gradient(circle at top left, #f3efe6 0%, transparent 45%),
+    linear-gradient(180deg, #faf8f4 0%, #ece7de 100%);
+}

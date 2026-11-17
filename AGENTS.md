@@ -33,7 +33,7 @@ Tinker Index is an AI-powered DIY project discovery platform (`tinkerindex.io`).
 | Search (MVP) | PostgreSQL full-text search |
 | Jobs (MVP) | Database-backed worker process (no Redis/broker) |
 | Hosting | Railway + Cloudflare (DNS/CDN/WAF) + R2 for authorized media |
-| Tests | Vitest (web), Jest (api/worker), Supertest, Playwright (e2e later) |
+| Tests | Vitest (web/api/worker), Supertest, Playwright (e2e later) |
 
 ## Repository layout
 

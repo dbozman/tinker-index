@@ -8,6 +8,7 @@ build/
 .tmp/
 .angular/
 *.tsbuildinfo
+apps/*/src/generated/
 
 # Env / secrets
 .env
