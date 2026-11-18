@@ -1,5 +1,5 @@
-// Milestone 2a — database foundation only.
-// Domain catalog models arrive in Milestone 2b.
+// Milestone 2b — MVP project catalog model.
+// Editorial AI evaluation jobs, revisions, and R2 media storage arrive later.
 
 generator client {
   provider     = "prisma-client"
@@ -11,12 +11,192 @@ datasource db {
   provider = "postgresql"
 }
 
+enum PublicationStatus {
+  DISCOVERED
+  EVALUATING
+  DRAFT
+  PENDING_REVIEW
+  REJECTED
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+/// Distinguishes source-verified facts from AI-derived estimates.
+enum Provenance {
+  SOURCE_VERIFIED
+  AI_ESTIMATED
+  UNKNOWN
+}
+
 /// Lightweight metadata row used to prove migrations and connectivity.
-/// Not part of the public product domain model.
 model SchemaMeta {
   id        String   @id @default(cuid())
   key       String   @unique
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projects    Project[]
+
+  @@index([sortOrder, name])
+}
+
+model Tag {
+  id        String       @id @default(cuid())
+  slug      String       @unique
+  name      String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  projects  ProjectTag[]
+}
+
+model Creator {
+  id         String    @id @default(cuid())
+  name       String
+  websiteUrl String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  projects   Project[]
+
+  @@index([name])
+}
+
+model Source {
+  id           String    @id @default(cuid())
+  name         String
+  websiteUrl   String?
+  /// Canonical instruction URL for this project source record when unique.
+  canonicalUrl String?   @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  projects     Project[]
+}
+
+model Tool {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  name      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  projects  ProjectTool[]
+}
+
+model Material {
+  id        String            @id @default(cuid())
+  slug      String            @unique
+  name      String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  projects  ProjectMaterial[]
+}
+
+model Project {
+  id          String            @id @default(cuid())
+  slug        String            @unique
+  title       String
+  /// Short original editorial summary for cards and meta descriptions.
+  summary     String
+  /// Longer original analysis (not a reproduction of source instructions).
+  description String
+  status      PublicationStatus @default(DRAFT)
+
+  difficulty            Difficulty?
+  difficultyProvenance  Provenance  @default(UNKNOWN)
+  /// Estimated project cost in minor currency units (e.g. cents).
+  estimatedCostCents    Int?
+  currency              String      @default("USD")
+  costProvenance        Provenance  @default(UNKNOWN)
+  /// Estimated completion time in whole minutes.
+  estimatedMinutes      Int?
+  timeProvenance        Provenance  @default(UNKNOWN)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  creatorId String?
+  creator   Creator? @relation(fields: [creatorId], references: [id])
+
+  sourceId  String
+  source    Source @relation(fields: [sourceId], references: [id])
+  /// Direct link to original instructions (required for published projects).
+  sourceUrl String
+
+  /// Concatenated text used for PostgreSQL full-text search.
+  searchText String @default("")
+
+  /// Demo/seed records are marked so they are never mistaken for production content.
+  isDemo Boolean @default(false)
+
+  /// Optional media metadata placeholders (no R2 integration in M2b).
+  mainImageUrl           String?
+  mainImageAttribution   String?
+  mainImageLicense       String?
+  mainImageRightsHolder  String?
+
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tags      ProjectTag[]
+  tools     ProjectTool[]
+  materials ProjectMaterial[]
+
+  @@index([status, publishedAt])
+  @@index([status, title])
+  @@index([status, estimatedCostCents])
+  @@index([status, estimatedMinutes])
+  @@index([categoryId, status])
+  @@index([difficulty, status])
+}
+
+model ProjectTag {
+  projectId String
+  tagId     String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, tagId])
+  @@index([tagId])
+}
+
+model ProjectTool {
+  projectId String
+  toolId    String
+  optional  Boolean @default(false)
+  notes     String?
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tool      Tool    @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, toolId])
+  @@index([toolId])
+}
+
+model ProjectMaterial {
+  projectId String
+  materialId String
+  quantity  String?
+  unit      String?
+  notes     String?
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  material  Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, materialId])
+  @@index([materialId])
 }

@@ -1,7 +1,5 @@
 /**
- * Shared contracts package.
- * Milestone 2a extends health payloads with database check status.
- * Full API DTOs arrive with Milestone 2b+.
+ * Shared contracts for Tinker Index APIs.
  */
 
 export type HealthStatusValue = 'ok' | 'degraded' | 'error';
@@ -47,3 +45,5 @@ export function createServiceHealthResponse(
     },
   };
 }
+
+export * from './catalog';

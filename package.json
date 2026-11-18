@@ -25,6 +25,7 @@
     "db:generate": "pnpm --filter @tinker-index/api prisma:generate",
     "db:migrate": "pnpm --filter @tinker-index/api prisma:migrate",
     "db:migrate:deploy": "pnpm --filter @tinker-index/api prisma:migrate:deploy",
+    "db:seed": "pnpm --filter @tinker-index/api prisma:seed",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

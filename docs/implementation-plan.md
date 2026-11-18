@@ -8,7 +8,7 @@ Phased milestones derived from [`architecture.md`](architecture.md) §16 and the
 |---|---|---|
 | M1 | Repository foundation | `pnpm install`, lint, typecheck, test, and build succeed; stub apps start |
 | M2a | Database + health | Prisma migrations apply; `/health` and `/health/ready` report DB status |
-| M2b | Catalog API | Seeded projects/categories returned from public GET APIs |
+| M2b | Catalog API | Seeded projects/categories returned from public GET APIs (complete) |
 | M3a | Design + home | Local home renders via SSR/prerender |
 | M3b | Public catalog UX | Browse, detail, categories, search/filter + SEO metadata |
 | M4a | Admin auth | Administrator can sign in (provider ADR first) |
@@ -90,3 +90,36 @@ pnpm dev:api
 - Preferred: Mac mini Docker Postgres bound to `127.0.0.1:5436`, accessed via SSH tunnel to laptop `localhost:5432`.
 - Compose template: [`infra/mac-mini-db/`](../infra/mac-mini-db/).
 - Do not reuse unrelated mini containers/volumes.
+
+## Milestone 2b — Project catalog API (complete)
+
+### In scope
+
+- Prisma catalog models: Project, Category, Tag, Creator, Source, Tool, Material, join tables
+- Public read APIs: projects, categories, search/filter/sort/pagination
+- PostgreSQL full-text search via `searchText`
+- Idempotent fictional demo seed (~14 published + 1 draft)
+- OpenAPI at `/api/docs`
+- Catalog docs in [`catalog-api.md`](catalog-api.md)
+
+### Out of scope
+
+- Angular catalog UI (Milestone 3)
+- Admin auth / editorial write APIs
+- Hermes / AI evaluation jobs
+- R2 media storage
+
+### Verification
+
+```bash
+pnpm db:tunnel
+pnpm db:migrate:deploy
+pnpm db:seed
+pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e && pnpm build
+pnpm dev:api
+# GET /api/v1/projects
+# GET /api/v1/projects/demo-led-shelf-lighting
+# GET /api/v1/categories
+# GET /api/v1/search?q=ESP32
+# GET /api/v1/projects/demo-draft-router-table-fence → 404
+```

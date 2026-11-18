@@ -90,17 +90,23 @@ Set `POSTGRES_PASSWORD` in `.env` first. Local Compose also binds to `127.0.0.1`
 pnpm db:generate           # generate Prisma Client into apps/api/src/generated/prisma
 pnpm db:migrate            # create/apply migrations in development
 pnpm db:migrate:deploy     # apply existing migrations (CI/production-style)
+pnpm db:seed               # idempotent demo catalog seed (fictional data)
 ```
+
+Catalog API reference: [`docs/catalog-api.md`](docs/catalog-api.md).
 
 ### Start the API and verify connectivity
 
 ```bash
 pnpm db:tunnel   # separate terminal
+pnpm db:seed     # once migrations are applied
 pnpm dev:api
 ```
 
 - Liveness: `GET http://localhost:3000/api/v1/health` → `200` (status `ok` or `degraded`)
 - Readiness: `GET http://localhost:3000/api/v1/health/ready` → `200` when DB is up, `503` when DB is down
+- Catalog: `GET http://localhost:3000/api/v1/projects`
+- OpenAPI: `http://localhost:3000/api/docs`
 
 Healthy readiness response shape:
 

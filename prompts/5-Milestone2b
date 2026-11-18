@@ -1,0 +1,293 @@
+# Tinker Index — Implement Milestone 2b: Project Catalog API
+
+You are the lead software engineer implementing Tinker Index.
+
+Milestones 1 and 2a are complete and committed.
+
+We now have a working monorepo, Angular frontend foundation, NestJS backend, Prisma 7 integration, PostgreSQL 16, and a dedicated development database hosted in Docker on my Mac mini.
+
+We are beginning **Milestone 2b: Project Catalog API**.
+
+## Objective
+
+Build the initial relational data model and read-only public REST APIs that will power the Tinker Index project catalog.
+
+By the end of this milestone, we should be able to seed the database with representative DIY projects and retrieve, search, sort, and filter those projects through the NestJS API.
+
+Do not implement frontend functionality yet.
+
+## 1. Design the Initial Data Model
+
+Extend the existing Prisma schema with the core entities necessary for the MVP catalog.
+
+Include:
+
+- Project
+- Category
+- Tag
+- Creator
+- Source
+- Tool
+- Material
+- ProjectTool
+- ProjectMaterial
+- ProjectTag
+
+Add join tables where required.
+
+Follow these principles:
+
+1. Projects must have unique, SEO-friendly slugs.
+2. Projects must support categories, tags, tools, and materials.
+3. Each project must reference its original source and creator where known.
+4. Store estimated difficulty, cost, build time, and currency.
+5. Distinguish AI-derived estimates from source-verified facts.
+6. Include publication status, creation timestamps, and update timestamps.
+7. Support draft and published records without exposing drafts through public endpoints.
+8. Preserve source attribution and source URLs.
+9. Include basic metadata for media attribution and licensing, but do not integrate R2 storage yet.
+10. Use appropriate relational constraints and indexes.
+
+Avoid building the complete future editorial or AI evaluation schema in this milestone.
+
+Choose sensible MVP defaults and document them.
+
+Before implementation, briefly present the proposed data model and relationships. Identify any decisions that would be difficult to reverse.
+
+Do not require a separate approval for ordinary, reversible implementation details once the design is established.
+
+## 2. Create Prisma Migrations
+
+Create and apply migrations for the new catalog entities.
+
+Requirements:
+
+- Preserve existing database records and migrations.
+- Do not reset or recreate the development database.
+- Use the existing Prisma 7 configuration.
+- Follow established model naming conventions.
+- Use database constraints to protect data integrity.
+- Create indexes for common search and filtering operations.
+- Verify migrations against the existing Mac mini PostgreSQL database.
+
+Do not modify unrelated databases, containers, or Docker volumes.
+
+## 3. Implement Catalog REST APIs
+
+Create the necessary NestJS modules, controllers, services, and data-access components.
+
+Implement these public endpoints:
+
+GET /api/v1/projects
+
+Returns a paginated list of published projects.
+
+GET /api/v1/projects/:slug
+
+Returns a published project by slug, including category, creator, source, tools, materials, tags, and available evaluation attributes.
+
+GET /api/v1/categories
+
+Returns categories with useful project counts where practical.
+
+GET /api/v1/categories/:slug
+
+Returns category information and its published projects, with pagination.
+
+GET /api/v1/search
+
+Supports keyword search and structured filtering.
+
+All public endpoints must exclude unpublished projects.
+
+Do not introduce administrative write APIs yet.
+
+Keep controllers thin and business rules in application services.
+
+## 4. Implement Search and Filtering
+
+Use PostgreSQL full-text search and ordinary relational queries.
+
+Do not introduce Elasticsearch, Meilisearch, Typesense, Redis, or vector databases.
+
+Support filtering by:
+
+- Category
+- Difficulty
+- Minimum and maximum estimated cost
+- Maximum estimated build time
+- Required tools
+- Keywords
+
+Support basic sorting by:
+
+- Most recently published
+- Title
+- Estimated cost
+- Estimated build time
+
+Requirements:
+
+- Validate query parameters.
+- Use safe, parameterized database queries.
+- Support pagination with reasonable maximum page sizes.
+- Return total result counts and pagination metadata.
+- Handle empty results gracefully.
+- Use deterministic secondary sorting for stable pagination.
+- Avoid loading the entire catalog into application memory for filtering.
+
+Choose simple search-ranking behavior appropriate for an initial catalog of 50–150 projects.
+
+## 5. Seed Representative Development Data
+
+Create an idempotent development seed script.
+
+Generate approximately 12–15 realistic sample projects across categories such as:
+
+- Electronics
+- Woodworking
+- 3D Printing
+- CNC Machining
+- Robotics
+- Home Improvement
+
+Ensure the sample data exercises different difficulties, costs, build times, materials, and tools.
+
+Important:
+
+- Mark sample projects clearly as demonstration data.
+- Do not invent real creator identities or falsely attribute projects to actual creators.
+- Do not create fake links that appear to reference real instructions.
+- Do not use copyrighted project descriptions or images without authorization.
+- Do not automatically import projects from external websites.
+- Do not publish sample records to production.
+
+Use realistic but clearly fictional example records, or verified and appropriately attributed sources when authorization is established.
+
+The seed script must be safe to run repeatedly without duplicating records.
+
+## 6. API Response Contracts
+
+Create clean, consistent response structures.
+
+Use the existing shared contracts package where it provides meaningful reuse.
+
+Responses should include:
+
+- Project identity and URL slug
+- Title and summary
+- Category and tags
+- Difficulty
+- Estimated cost and currency
+- Estimated duration
+- Tools and materials
+- Creator attribution
+- Original source URL
+- Publication timestamp
+- Appropriate provenance or estimate indicators
+
+Avoid exposing internal editorial notes, database implementation details, sensitive metadata, or unpublished records.
+
+Ensure the API design will work naturally with Angular SSR in Milestone 3.
+
+Document the endpoints through OpenAPI/Swagger or the project's established API documentation approach.
+
+## 7. Testing
+
+Add comprehensive tests for the new functionality.
+
+Include:
+
+- Prisma model relationships.
+- Seed-script idempotency.
+- Published-only visibility.
+- Project lookup by slug.
+- Unknown project behavior (404).
+- Category browsing.
+- Keyword search.
+- Combined filters.
+- Sorting.
+- Pagination.
+- Validation of invalid parameters.
+- Empty-result handling.
+- Correct source and creator attribution.
+- Database constraints and uniqueness.
+
+Use the existing Vitest and Supertest infrastructure.
+
+Use the real development PostgreSQL database for appropriate integration testing, but isolate test records and clean them up reliably.
+
+Never reset the shared development database as part of automated tests.
+
+CI must continue using its isolated PostgreSQL service.
+
+## 8. Developer Experience
+
+Update documentation to include:
+
+- New Prisma models and their relationships.
+- Migration commands.
+- Seed commands.
+- Available API endpoints.
+- Example requests and responses.
+- Search and filtering conventions.
+- How to verify the catalog locally.
+
+Maintain compatibility with the existing Mac mini PostgreSQL setup and SSH tunnel workflow.
+
+Do not change the current infrastructure unless necessary.
+
+## 9. Validation
+
+Before considering the milestone complete:
+
+1. Generate the Prisma client.
+2. Apply database migrations successfully.
+3. Run the development seed.
+4. Confirm that projects are stored correctly.
+5. Start the NestJS API.
+6. Test all new endpoints against PostgreSQL.
+7. Verify that unpublished records cannot be retrieved publicly.
+8. Run lint, typecheck, unit tests, integration tests, and production builds.
+9. Resolve any failures.
+10. Confirm Milestone 1 and 2a functionality still works.
+
+Do not declare success based only on unit tests or mocked database responses.
+
+## 10. Completion Report
+
+When implementation is finished, provide:
+
+1. Summary of the data model.
+2. Files created or modified.
+3. Prisma migration status.
+4. Number and categories of seeded projects.
+5. API endpoint list.
+6. Search and filter capabilities.
+7. Test and build results.
+8. Architectural decisions or deviations.
+9. Unresolved concerns.
+10. Recommended next milestone.
+
+Update `docs/implementation-plan.md` with verified completion status.
+
+## Important Constraints
+
+- Implement **Milestone 2b only**.
+- Do not begin Milestone 3.
+- Do not build Angular catalog pages yet.
+- Do not implement admin authentication.
+- Do not implement editorial approval interfaces.
+- Do not implement Hermes integration or AI evaluation jobs.
+- Do not connect external search services.
+- Do not deploy to Railway.
+- Do not reset databases or destroy existing data.
+- Do not commit or push changes without my approval.
+- Preserve the existing modular monolith architecture.
+- Avoid unnecessary abstraction layers and new infrastructure.
+
+## Definition of Done
+
+Milestone 2b is complete when the database contains representative development projects, the NestJS API can reliably retrieve and filter published catalog data, source attribution and AI-estimate provenance are preserved, and all relevant validation checks pass.
+
+The result should provide a clean backend foundation for building the public Tinker Index website in Milestone 3.
