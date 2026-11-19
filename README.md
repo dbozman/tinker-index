@@ -125,7 +125,18 @@ Responses never include connection strings or credentials.
 
 ```bash
 pnpm dev:worker   # application-context worker stub
-pnpm dev:web      # http://localhost:4200
+pnpm dev:api      # http://localhost:3000 — required for homepage catalog data
+pnpm dev:web      # http://localhost:4200 (SSR/dev server; calls API_BASE_URL)
+```
+
+Homepage (`/`) uses SSR and loads featured projects + categories from the Nest API. Set `API_BASE_URL` in `.env` (default `http://localhost:3000/api/v1`). The Angular build does **not** require Postgres; only a running API is needed when serving the home page.
+
+Production-style web smoke:
+
+```bash
+pnpm build
+API_BASE_URL=http://localhost:3000/api/v1 node apps/web/dist/web/server/server.mjs
+# open http://localhost:4000 — featured project titles should appear in View Source
 ```
 
 ## Validation scripts
@@ -141,6 +152,6 @@ pnpm dev:web      # http://localhost:4200
 
 ## Current milestone
 
-**Milestone 2a — Database + Health** adds PostgreSQL/Prisma foundation and readiness checks.
+**Milestone 3a — Design system & homepage** — public SSR homepage with catalog API integration.
 
 See [`docs/implementation-plan.md`](docs/implementation-plan.md).

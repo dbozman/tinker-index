@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.about__body {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--width-narrow);
+  color: var(--color-ink-muted);
+  font-size: var(--text-lg);
+}
+
+.about h1 {
+  max-width: 16ch;
+}

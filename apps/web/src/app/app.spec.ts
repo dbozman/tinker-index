@@ -1,23 +1,25 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    expect(fixture.componentInstance).toBeTruthy();
-  });
-
-  it('should render the brand and tagline', async () => {
+  it('should create the app shell with header and footer', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.shell__brand')?.textContent).toContain('Tinker Index');
-    expect(compiled.querySelector('h1')?.textContent).toContain('Discover your next project.');
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(compiled.querySelector('app-site-header')).toBeTruthy();
+    expect(compiled.querySelector('app-site-footer')).toBeTruthy();
+    expect(compiled.querySelector('#main-content')).toBeTruthy();
   });
 });

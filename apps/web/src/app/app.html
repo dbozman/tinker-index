@@ -1,10 +1,7 @@
-<main class="shell">
-  <header class="shell__header">
-    <p class="shell__brand">{{ title }}</p>
-    <h1>Discover your next project.</h1>
-    <p class="shell__lede">
-      Milestone 1 repository foundation. Public catalog features arrive in later milestones.
-    </p>
-  </header>
-  <router-outlet />
-</main>
+<div class="app-shell">
+  <app-site-header />
+  <main id="main-content" class="app-shell__main">
+    <router-outlet />
+  </main>
+  <app-site-footer />
+</div>

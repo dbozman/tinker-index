@@ -1,0 +1,127 @@
+<section class="hero" aria-labelledby="home-hero-heading">
+  <div class="hero__plane" aria-hidden="true">
+    <svg class="hero__art" viewBox="0 0 960 640" role="presentation" focusable="false">
+      <defs>
+        <linearGradient id="heroWash" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0f6b5c" stop-opacity="0.35" />
+          <stop offset="55%" stop-color="#1a2332" stop-opacity="0.85" />
+          <stop offset="100%" stop-color="#a67c3d" stop-opacity="0.28" />
+        </linearGradient>
+        <pattern id="heroGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <path d="M32 0H0V32" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect width="960" height="640" fill="url(#heroWash)" />
+      <rect width="960" height="640" fill="url(#heroGrid)" />
+      <g fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="2">
+        <rect x="120" y="140" width="220" height="160" rx="12" />
+        <path d="M160 220h140M230 180v80" />
+        <circle cx="620" cy="220" r="78" />
+        <path d="M620 142v156M542 220h156" />
+        <path d="M430 420h280l40 80H390z" />
+        <path d="M180 430h90v120H180z" />
+        <path d="M210 430v-40h30v40" />
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero__content container">
+    <p class="hero__brand">Tinker Index</p>
+    <h1 id="home-hero-heading">Discover your next project.</h1>
+    <p class="hero__lede">
+      Find builds across electronics, woodworking, 3D printing, robotics, CNC machining, and home
+      improvement—shaped by the skills, tools, time, and budget you already have.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#featured">Explore featured projects</a>
+    </div>
+  </div>
+</section>
+
+<section id="featured" class="section featured" aria-labelledby="featured-heading">
+  <div class="container">
+    <header class="section__header">
+      <p class="section__eyebrow">Featured projects</p>
+      <h2 id="featured-heading">Hand-picked builds to browse</h2>
+      <p class="section__lede">
+        A sample of published projects from the catalog. Detail pages arrive in a later milestone.
+      </p>
+    </header>
+
+    @if (projectsLoading()) {
+      <div class="card-grid" aria-busy="true" aria-live="polite">
+        @for (n of [1, 2, 3, 4, 5, 6]; track n) {
+          <div class="skeleton-card"></div>
+        }
+      </div>
+    } @else if (projectsError()) {
+      <p class="status-banner status-banner--error" role="alert">{{ projectsError() }}</p>
+    } @else if (projects().length === 0) {
+      <p class="status-banner">No published projects are available yet.</p>
+    } @else {
+      <div class="card-grid">
+        @for (project of projects(); track project.slug) {
+          <app-project-card [project]="project" />
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<section id="categories" class="section categories" aria-labelledby="categories-heading">
+  <div class="container">
+    <header class="section__header">
+      <p class="section__eyebrow">Explore categories</p>
+      <h2 id="categories-heading">Craft areas worth exploring</h2>
+      <p class="section__lede">
+        Start from the kind of making you care about. Category pages land in Milestone 3b.
+      </p>
+    </header>
+
+    @if (categoriesLoading()) {
+      <div class="category-grid" aria-busy="true">
+        @for (n of [1, 2, 3, 4, 5, 6]; track n) {
+          <div class="skeleton-card skeleton-card--short"></div>
+        }
+      </div>
+    } @else if (categoriesError()) {
+      <p class="status-banner status-banner--error" role="alert">{{ categoriesError() }}</p>
+    } @else if (categories().length === 0) {
+      <p class="status-banner">Categories will appear once the catalog is seeded.</p>
+    } @else {
+      <div class="category-grid">
+        @for (category of categories(); track category.slug) {
+          <app-category-card [category]="category" />
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<section class="section why" aria-labelledby="why-heading">
+  <div class="container">
+    <header class="section__header">
+      <p class="section__eyebrow">Why Tinker Index?</p>
+      <h2 id="why-heading">Discovery built around how makers actually choose</h2>
+    </header>
+
+    <ul class="why__list">
+      <li>
+        <h3>Match your skills</h3>
+        <p>Browse by difficulty so you can stretch without getting stuck.</p>
+      </li>
+      <li>
+        <h3>Stay in budget</h3>
+        <p>See estimated costs up front and filter toward builds you can afford.</p>
+      </li>
+      <li>
+        <h3>Fit your schedule</h3>
+        <p>Find weekend builds or longer builds with clear time estimates.</p>
+      </li>
+      <li>
+        <h3>Use tools you own</h3>
+        <p>Discover projects that lean on the tools already in your shop.</p>
+      </li>
+    </ul>
+  </div>
+</section>

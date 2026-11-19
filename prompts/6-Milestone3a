@@ -1,0 +1,362 @@
+# Tinker Index — Milestone 3a: Design System & Homepage
+
+## Your Role
+
+Act as a senior Angular developer, frontend architect, and UI/UX designer.
+
+You are implementing **Milestone 3a — Design System & Homepage** for Tinker Index.
+
+Milestones 1, 2a, and 2b are complete and committed.
+
+**IMPORTANT: You are currently in Cursor Plan Mode. Do not modify files or generate implementation code until I explicitly approve your implementation plan.**
+
+## 1. Review Existing Architecture
+
+Before proposing implementation changes, read:
+
+- `AGENTS.md`
+- `docs/architecture.md`
+- `docs/implementation-plan.md`
+- `docs/catalog-api.md`
+- Existing Angular application in `apps/web`
+- Shared types in `packages/contracts`
+- Existing NestJS catalog API
+
+Follow established architectural decisions and conventions.
+
+Do not introduce new frameworks or infrastructure without a compelling reason.
+
+## 2. Milestone Objective
+
+Transform the current Angular frontend shell into a modern, polished, responsive homepage for Tinker Index.
+
+**Brand:** Tinker Index
+
+**Tagline:** Discover your next project.
+
+**Purpose:** Help makers discover DIY projects based on their interests, skill level, available tools, available time, and budget.
+
+The result should look like a credible, professional website—not an application prototype.
+
+This milestone establishes the visual and technical foundation for future catalog pages.
+
+## 3. Visual Design
+
+Develop a cohesive design direction.
+
+Desired characteristics:
+
+- Modern, clean, and professional
+- Inspired by maker culture, creativity, and hands-on engineering
+- Strong visual hierarchy
+- Excellent typography
+- Comfortable spacing
+- Attractive project cards
+- Responsive layouts
+- Subtle interactions and hover states
+- Accessible color contrast
+- Fast-loading pages
+
+Avoid:
+
+- Generic SaaS dashboard styling
+- Excessively futuristic or neon aesthetics
+- Heavy animations
+- Unnecessary third-party UI dependencies
+- Overengineered component frameworks
+
+Use SCSS and reusable design tokens for colors, typography, spacing, borders, and responsive breakpoints.
+
+Angular Material may be used selectively, but do not make the website look like a standard Material application.
+
+## 4. Homepage Requirements
+
+Implement the following sections.
+
+### Header
+
+- Tinker Index branding
+- Navigation for Discover, Categories, and About
+- Responsive mobile navigation
+- Accessible keyboard interaction
+
+Do not create full destination pages that belong to later milestones.
+
+Avoid broken navigation links.
+
+### Hero Section
+
+Primary headline:
+
+**Discover your next project.**
+
+Provide concise supporting copy explaining that users can discover projects across:
+
+- Electronics
+- Woodworking
+- 3D printing
+- Robotics
+- CNC machining
+- Home improvement
+
+Include a compelling primary call to action.
+
+The CTA must have a working destination or be intentionally deferred.
+
+### Featured Projects
+
+Retrieve published projects using the existing API:
+
+`GET /api/v1/projects`
+
+Display a selection of project cards containing:
+
+- Title
+- Summary
+- Category
+- Difficulty
+- Estimated cost
+- Estimated build time
+
+Use existing shared API contracts.
+
+Provide attractive placeholders when project images are unavailable.
+
+Do not introduce unlicensed or externally hotlinked images.
+
+Clearly identify fictional demo records when appropriate.
+
+Project detail pages are outside this milestone.
+
+### Explore Categories
+
+Retrieve categories from:
+
+`GET /api/v1/categories`
+
+Display a visually appealing category grid.
+
+Include:
+
+- Category name
+- Brief description
+- Published project count
+
+Category detail pages belong to Milestone 3b.
+
+### Why Tinker Index?
+
+Create a concise section highlighting the platform's benefits:
+
+- Find projects that match your skills
+- Discover projects within your budget
+- Find projects that fit your schedule
+- Explore projects using tools you already own
+
+### Footer
+
+Include:
+
+- Site branding
+- Appropriate navigation
+- Copyright information
+- A brief statement acknowledging original project creators
+
+Do not invent social media accounts or legal policies.
+
+## 5. Frontend Architecture
+
+Use the existing Angular 21 architecture.
+
+Prefer:
+
+- Standalone components
+- Signals where appropriate
+- Modern Angular template syntax
+- Dependency injection
+- Typed API services
+- Shared contracts
+- SCSS
+- Reusable but appropriately scoped components
+
+Potential components:
+
+- SiteHeader
+- SiteFooter
+- ProjectCard
+- CategoryCard
+- HomePage
+
+Keep API interactions separate from presentation components.
+
+Avoid creating unnecessary abstractions.
+
+Do not modify the backend unless a confirmed issue prevents frontend integration.
+
+## 6. SSR and SEO
+
+SEO is a critical business requirement.
+
+The homepage must be search-engine friendly.
+
+Implement and verify:
+
+- Server-rendered or prerendered HTML
+- Proper document title
+- Meta description
+- Canonical URL: `https://tinkerindex.io/`
+- Open Graph metadata
+- Social sharing metadata
+- Semantic HTML
+- Proper heading hierarchy
+- Accessible navigation
+- Appropriate robots handling for development environments
+
+**Important architectural consideration:**
+
+The Angular application currently uses prerendering.
+
+Evaluate whether prerendering or SSR is more appropriate for the homepage.
+
+Ensure the build process does not unnecessarily depend on the development PostgreSQL database or the Mac mini being available.
+
+Use supported Angular SSR/hydration capabilities.
+
+Avoid duplicate API requests during hydration.
+
+Do not introduce custom HTML metadata injection.
+
+Dynamic project SEO belongs to Milestone 3b.
+
+## 7. API Integration
+
+Use existing NestJS endpoints.
+
+Requirements:
+
+- Configurable API base URL
+- Typed HTTP responses
+- Proper loading states
+- Graceful error handling
+- Empty-state handling
+- No database access from Angular
+- No secrets exposed to the browser
+
+Ensure the approach works with both local development and eventual Railway deployment.
+
+Document any configuration changes.
+
+## 8. Performance
+
+Prioritize:
+
+- Excellent Core Web Vitals
+- Minimal JavaScript
+- Small production bundles
+- Responsive layouts
+- No unnecessary third-party libraries
+- Avoiding cumulative layout shifts
+- Lazy-loading noncritical assets
+- Accessible focus states
+- Reduced-motion preferences
+
+Do not introduce new image infrastructure in this milestone.
+
+## 9. Testing and Validation
+
+Implement focused tests covering:
+
+- Homepage rendering
+- Project-card rendering
+- Category-card rendering
+- API integration
+- API error handling
+- Missing images
+- Navigation behavior
+- Basic accessibility requirements
+
+Verify that meaningful homepage content appears in the initial rendered HTML.
+
+Run:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+Report actual results.
+
+Do not claim successful SSR verification without testing the generated output.
+
+## 10. Scope Boundaries
+
+### Included
+
+- Design system foundation
+- Global header and footer
+- Homepage
+- Homepage API integration
+- Responsive design
+- Homepage SEO metadata
+- SSR/prerender verification
+- Tests
+- Documentation updates
+
+### Excluded
+
+- Full project catalog browsing
+- Project detail pages
+- Category detail pages
+- Search/filter interface
+- User accounts
+- Authentication
+- Admin dashboard
+- Editorial workflows
+- Hermes integration
+- AI evaluation
+- Cloudflare R2
+- Railway production deployment
+- Advertising integration
+
+Do not implement Milestone 3b.
+
+## 11. Deliverables
+
+After implementation, provide:
+
+1. Summary of changes
+2. Files created or modified
+3. Key design decisions
+4. Desktop and mobile visual verification
+5. SSR/SEO verification results
+6. Test results
+7. Known limitations
+8. Local development instructions
+9. Recommendations for Milestone 3b
+
+Update `docs/implementation-plan.md` when the milestone is complete and verified.
+
+Do not commit changes until I approve them.
+
+## 12. Planning Instructions
+
+**Your immediate task is to create an implementation plan—not to write code.**
+
+The plan should include:
+
+1. Proposed homepage design direction
+2. Angular component structure
+3. SCSS design-token approach
+4. API integration approach
+5. SSR versus prerendering recommendation
+6. SEO implementation strategy
+7. Testing strategy
+8. Files expected to change
+9. Implementation sequence
+10. Risks or decisions requiring approval
+
+Keep the solution maintainable and appropriately scoped.
+
+**Stop after presenting the implementation plan and wait for my approval.**

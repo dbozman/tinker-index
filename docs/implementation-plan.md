@@ -9,7 +9,7 @@ Phased milestones derived from [`architecture.md`](architecture.md) §16 and the
 | M1 | Repository foundation | `pnpm install`, lint, typecheck, test, and build succeed; stub apps start |
 | M2a | Database + health | Prisma migrations apply; `/health` and `/health/ready` report DB status |
 | M2b | Catalog API | Seeded projects/categories returned from public GET APIs (complete) |
-| M3a | Design + home | Local home renders via SSR/prerender |
+| M3a | Design + home | Local home renders via SSR with catalog content (complete) |
 | M3b | Public catalog UX | Browse, detail, categories, search/filter + SEO metadata |
 | M4a | Admin auth | Administrator can sign in (provider ADR first) |
 | M4b | Editorial workflow | Review, approve/reject/publish |
@@ -122,4 +122,33 @@ pnpm dev:api
 # GET /api/v1/categories
 # GET /api/v1/search?q=ESP32
 # GET /api/v1/projects/demo-draft-router-table-fence → 404
+```
+
+## Milestone 3a — Design system & homepage (complete)
+
+### In scope
+
+- SCSS design tokens (“Precision Workshop” visual direction)
+- Global `SiteHeader` / `SiteFooter` with accessible mobile nav
+- Homepage sections: hero, featured projects, categories, why, footer
+- Typed catalog API client using `@tinker-index/contracts`
+- SSR for `/` (no Postgres required at build time); prerender for `/about`
+- Homepage SEO metadata (title, description, canonical, Open Graph)
+- Local CORS for Angular dev/SSR origins on the Nest API
+- Unit tests for home, cards, API client, and header
+
+### Out of scope
+
+- Project / category detail pages and catalog browse (Milestone 3b)
+- Search/filter UI, auth, admin, Hermes, R2, Railway deploy
+
+### Verification
+
+```bash
+pnpm db:tunnel
+pnpm dev:api   # separate terminal
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
+API_BASE_URL=http://localhost:3000/api/v1 node apps/web/dist/web/server/server.mjs
+# curl -s http://localhost:4000 | grep -E 'Discover your next project|demo-|Electronics'
+# curl -s http://localhost:4000/about | grep -E 'About|Tinker Index'
 ```

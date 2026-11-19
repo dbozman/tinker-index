@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  overflow: hidden;
+  transition:
+    transform var(--transition-med),
+    border-color var(--transition-fast);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .category-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-border-strong);
+  }
+}
+
+.category-card__accent {
+  width: 2.5rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+.category-card[data-category='electronics'] .category-card__accent {
+  background: #1f6f8b;
+}
+
+.category-card[data-category='woodworking'] .category-card__accent {
+  background: #a67c3d;
+}
+
+.category-card[data-category='3d-printing'] .category-card__accent {
+  background: #6d8cff;
+}
+
+.category-card[data-category='cnc-machining'] .category-card__accent {
+  background: #5b6775;
+}
+
+.category-card[data-category='robotics'] .category-card__accent {
+  background: #355070;
+}
+
+.category-card[data-category='home-improvement'] .category-card__accent {
+  background: #5f7a6c;
+}
+
+.category-card__title {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.category-card__description {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  flex: 1;
+}
+
+.category-card__count {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-subtle);
+}

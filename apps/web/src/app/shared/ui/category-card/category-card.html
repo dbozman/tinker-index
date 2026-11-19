@@ -1,0 +1,8 @@
+<article class="category-card" [attr.data-category]="category().slug">
+  <div class="category-card__accent" aria-hidden="true"></div>
+  <h3 class="category-card__title">{{ category().name }}</h3>
+  <p class="category-card__description">
+    {{ category().description || 'Explore published builds in this craft area.' }}
+  </p>
+  <p class="category-card__count">{{ projectCountLabel() }}</p>
+</article>
