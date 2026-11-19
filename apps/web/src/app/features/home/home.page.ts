@@ -1,8 +1,9 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import type { CategorySummary, ProjectListItem } from '@tinker-index/contracts';
 
 import { CatalogApiService } from '../../core/catalog-api.service';
+import { formatCostCents, formatDifficulty, formatDurationMinutes } from '../../core/formatters';
 import { SeoService } from '../../core/seo.service';
 import { CategoryCard } from '../../shared/ui/category-card/category-card';
 import { ProjectCard } from '../../shared/ui/project-card/project-card';
@@ -24,6 +25,8 @@ export class HomePage implements OnInit {
   readonly categoriesError = signal<string | null>(null);
   readonly projects = signal<ProjectListItem[]>([]);
   readonly categories = signal<CategorySummary[]>([]);
+
+  readonly featuredHighlight = computed(() => this.projects()[0] ?? null);
 
   ngOnInit(): void {
     this.seo.apply({
@@ -66,5 +69,18 @@ export class HomePage implements OnInit {
           );
         },
       });
+  }
+
+  highlightDifficulty(project: ProjectListItem): string {
+    return formatDifficulty(project.difficulty.value);
+  }
+
+  highlightCost(project: ProjectListItem): string {
+    const cost = project.estimatedCost.value;
+    return formatCostCents(cost?.amountCents ?? null, cost?.currency ?? 'USD');
+  }
+
+  highlightDuration(project: ProjectListItem): string {
+    return formatDurationMinutes(project.estimatedDuration.value?.minutes ?? null);
   }
 }

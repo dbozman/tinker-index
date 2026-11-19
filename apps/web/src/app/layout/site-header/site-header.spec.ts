@@ -18,7 +18,7 @@ describe('SiteHeader', () => {
 
   it('renders brand and primary navigation destinations', () => {
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('.site-header__name')?.textContent).toContain('Tinker Index');
+    expect(el.querySelector('.site-header__name')?.textContent).toContain('TinkerIndex');
     expect(el.querySelector('a[href="/#featured"]')?.textContent).toContain('Discover');
     expect(el.querySelector('a[href="/#categories"]')?.textContent).toContain('Categories');
     expect(el.querySelector('a[href="/about"]')?.textContent).toContain('About');

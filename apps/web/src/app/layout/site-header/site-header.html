@@ -1,8 +1,8 @@
 <header class="site-header">
   <div class="site-header__inner container">
     <a class="site-header__brand" routerLink="/" (click)="closeMenu()">
-      <span class="site-header__mark" aria-hidden="true"></span>
-      <span class="site-header__name">Tinker Index</span>
+      <app-brand-spark />
+      <span class="brand-wordmark site-header__name">TinkerIndex</span>
     </a>
 
     <button
@@ -25,6 +25,9 @@
       <a href="/#featured" (click)="closeMenu()">Discover</a>
       <a href="/#categories" (click)="closeMenu()">Categories</a>
       <a routerLink="/about" routerLinkActive="is-active" (click)="closeMenu()">About</a>
+      <a class="site-header__cta btn btn--primary" href="/#featured" (click)="closeMenu()">
+        Explore builds
+      </a>
     </nav>
   </div>
 </header>

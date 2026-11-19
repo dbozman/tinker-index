@@ -9,7 +9,7 @@ const difficultyLabels: Record<Difficulty, string> = {
 
 export function formatDifficulty(value: Difficulty | null | undefined): string {
   if (!value) {
-    return 'Unspecified';
+    return 'Not estimated';
   }
   return difficultyLabels[value];
 }
@@ -19,7 +19,7 @@ export function formatCostCents(
   currency = 'USD',
 ): string {
   if (amountCents === null || amountCents === undefined) {
-    return 'Cost TBD';
+    return 'Not estimated';
   }
 
   try {
@@ -35,7 +35,7 @@ export function formatCostCents(
 
 export function formatDurationMinutes(minutes: number | null | undefined): string {
   if (minutes === null || minutes === undefined) {
-    return 'Time TBD';
+    return 'Not estimated';
   }
 
   if (minutes < 60) {

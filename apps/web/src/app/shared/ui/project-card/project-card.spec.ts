@@ -45,12 +45,14 @@ describe('ProjectCard', () => {
     expect(el.querySelector('.project-card__demo')?.textContent).toContain('Demo');
   });
 
-  it('formats difficulty, cost, and duration', () => {
+  it('formats difficulty, cost, and duration as chips', () => {
     const el = fixture.nativeElement as HTMLElement;
-    const facts = el.textContent ?? '';
-    expect(facts).toContain('Beginner');
-    expect(facts).toContain('$24');
-    expect(facts).toContain('1h 30m');
+    const chips = Array.from(el.querySelectorAll('.project-card__chips li')).map(
+      (node) => node.textContent?.trim(),
+    );
+    expect(chips).toContain('Beginner');
+    expect(chips).toContain('$24');
+    expect(chips).toContain('1h 30m');
   });
 
   it('shows a visual placeholder when no image is present', () => {

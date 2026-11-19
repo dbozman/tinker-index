@@ -73,13 +73,13 @@ describe('HomePage', () => {
     fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('.hero__brand')?.textContent).toContain('Tinker Index');
-    expect(el.querySelector('h1')?.textContent).toContain('Discover your next project.');
+    expect(el.querySelector('h1')?.textContent).toContain('Discover your next');
     expect(el.querySelector('#featured')).toBeTruthy();
     expect(el.querySelector('#categories')).toBeTruthy();
     expect(el.textContent).toContain('Why Tinker Index?');
     expect(el.textContent).toContain('LED Shelf Lighting');
     expect(el.textContent).toContain('Electronics');
+    expect(el.textContent).toContain('Get curious. Get building.');
   });
 
   it('shows an error state when the API fails', async () => {

@@ -11,7 +11,7 @@ Documented as of Milestone 3a (2026-11-17). Exact resolved versions live in `pnp
 | NestJS | 12.5.x | See ADR 0001 (architecture listed 11) |
 | Prisma | 7.10.x | See ADR 0002; `@prisma/adapter-pg` + `pg` |
 | PostgreSQL | 16 (Docker Compose) | Local development database |
-| `@fontsource/syne` / `source-sans-3` | 5.x | Self-hosted public-site fonts (M3a) |
+| `@fontsource/space-grotesk` / `manrope` / `dm-mono` | 5.x | Self-hosted Maker Discovery fonts (M3a) |
 | Vitest | 4.x | Unit tests for web, api, and worker (NestJS 12 ESM-friendly) |
 | ESLint | 9.x | Flat config |
 | Prettier | 3.x | Root formatting |

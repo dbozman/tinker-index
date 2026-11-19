@@ -128,7 +128,7 @@ pnpm dev:api
 
 ### In scope
 
-- SCSS design tokens (“Precision Workshop” visual direction)
+- Initial SCSS design tokens and public homepage shell
 - Global `SiteHeader` / `SiteFooter` with accessible mobile nav
 - Homepage sections: hero, featured projects, categories, why, footer
 - Typed catalog API client using `@tinker-index/contracts`
@@ -136,6 +136,8 @@ pnpm dev:api
 - Homepage SEO metadata (title, description, canonical, Open Graph)
 - Local CORS for Angular dev/SSR origins on the Nest API
 - Unit tests for home, cards, API client, and header
+
+**Visual direction:** Public UI follows [`style-guide.md`](style-guide.md) (Maker Discovery). The temporary “Precision Workshop” token set was replaced in the M3a design refinement.
 
 ### Out of scope
 

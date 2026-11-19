@@ -8,7 +8,8 @@ Persistent instructions for AI-assisted development (Cursor and similar tools).
 2. Treat that document as the authoritative technical architecture until it is formally revised.
 3. Follow locked dependency versions in [`docs/versions.md`](docs/versions.md) when that file exists.
 4. Follow coding conventions in [`docs/coding-conventions.md`](docs/coding-conventions.md) when that file exists.
-5. Record stack or architecture deviations as ADRs under [`docs/decisions/`](docs/decisions/) **before** implementing them. Explain proposed deviations to the user first.
+5. For any public website UI, visual design, branding, typography, color, or component styling work, follow [`docs/style-guide.md`](docs/style-guide.md) as the visual source of truth (Maker Discovery). Do not invent a competing theme.
+6. Record stack or architecture deviations as ADRs under [`docs/decisions/`](docs/decisions/) **before** implementing them. Explain proposed deviations to the user first.
 
 ## Product context
 
@@ -42,7 +43,7 @@ apps/web       Angular public site + admin (CSR admin routes)
 apps/api       NestJS API (Prisma schema and migrations live here)
 apps/worker    Thin Nest entry; reuses api business modules
 packages/contracts   Shared API types / validation contracts only when needed
-docs/          Architecture, plan, versions, ADRs
+docs/          Architecture, plan, style guide, versions, ADRs
 ```
 
 Do not create extra packages, services, or infrastructure unless sharing or isolation clearly justifies them.
@@ -64,6 +65,7 @@ Do not create extra packages, services, or infrastructure unless sharing or isol
 
 ## Frontend expectations
 
+- Public visual identity is defined by [`docs/style-guide.md`](docs/style-guide.md). Map its tokens into shared SCSS/CSS variables; do not hard-code a second palette or type system.
 - Standalone Angular components; lazy-loaded feature areas.
 - Hybrid rendering: prerender stable pages; SSR for project detail and useful search views; CSR for admin.
 - Use Angular Material selectively (admin, forms, dialogs). Do not let Material dictate the public visual identity.

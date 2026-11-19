@@ -1,15 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  Component,
-  HostListener,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
+import { BrandSpark } from '../../shared/ui/brand-spark/brand-spark';
 
 @Component({
   selector: 'app-site-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, BrandSpark],
   templateUrl: './site-header.html',
   styleUrl: './site-header.scss',
 })

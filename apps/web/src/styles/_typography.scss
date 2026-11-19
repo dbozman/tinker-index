@@ -4,13 +4,14 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--color-ink);
+  color: var(--color-text-primary);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-brand);
+  letter-spacing: var(--tracking-display);
 }
 
 h1 {
   font-size: var(--text-3xl);
+  line-height: var(--leading-hero);
 }
 
 h2 {
@@ -19,7 +20,8 @@ h2 {
 
 h3 {
   font-size: var(--text-xl);
-  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: var(--leading-snug);
 }
 
 p {
@@ -27,17 +29,17 @@ p {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-accent-green);
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
 }
 
 a:hover {
-  color: var(--color-accent-hover);
+  color: var(--color-brand-forest);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 2px solid var(--color-focus-on-light);
   outline-offset: 3px;
 }
 
@@ -48,12 +50,15 @@ a:hover {
   z-index: 100;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
-  background: var(--color-ink);
-  color: #fff;
+  background: var(--color-brand-lime);
+  color: var(--color-brand-forest);
+  font-family: var(--font-body);
+  font-weight: 700;
   text-decoration: none;
   transform: translateY(-200%);
 }
 
 .skip-link:focus {
   transform: none;
+  outline: 2px solid var(--color-brand-forest);
 }

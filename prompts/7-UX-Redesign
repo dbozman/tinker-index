@@ -1,0 +1,78 @@
+# Tinker Index — Milestone 3a Design Refinement
+
+We have approved a new visual design direction for Tinker Index called **Maker Discovery**.
+
+The design is documented in:
+
+`docs/design-system.md`
+
+The approved visual reference is:
+
+https://tinker-index-design-explorations.nicemetal32.chatgpt.site/#hybrid
+
+## Objective
+
+Update the existing Angular frontend to follow the approved Maker Discovery design system.
+
+This is a visual refinement of Milestone 3a, not a new application implementation.
+
+## Instructions
+
+1. Read `AGENTS.md`, `docs/architecture.md`, `docs/implementation-plan.md`, and `docs/design-system.md`.
+
+2. Review the existing Angular frontend, especially its layout, homepage components, SCSS design tokens, API integration, and SSR configuration.
+
+3. Compare the existing frontend against the approved Maker Discovery design.
+
+4. Create an implementation plan identifying which components and styles need to change.
+
+5. Preserve existing architecture, API services, contracts, routes, SSR, hydration, SEO metadata, and working tests.
+
+6. Implement the approved color palette, typography, branding, layout, cards, category tiles, navigation, and homepage presentation.
+
+7. Reuse existing components where appropriate. Remove obsolete styling and tokens rather than maintaining two competing design systems.
+
+8. Implement the design using Angular and SCSS. Do not copy the prototype's raw HTML or JavaScript into the production application.
+
+9. Use self-hosted fonts and respect accessibility and performance requirements.
+
+10. Update `AGENTS.md` to identify `docs/design-system.md` as the authoritative design reference for future frontend development.
+
+## Scope
+
+This task is strictly limited to the approved Milestone 3a redesign.
+
+Do not implement Milestone 3b.
+
+Do not change the backend, database, or API contracts unless a confirmed defect requires discussion.
+
+Do not introduce new infrastructure or unnecessary dependencies.
+
+## Validation
+
+Run:
+
+- `pnpm lint`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
+
+Verify:
+
+- Homepage SSR still works.
+- SEO metadata remains correct.
+- Live catalog data loads.
+- Project and category cards display correctly.
+- Desktop and mobile layouts match the approved design.
+- Existing tests continue passing.
+- No new console errors or accessibility regressions.
+
+Take screenshots of desktop and mobile layouts for review.
+
+## Working Mode
+
+**First create an implementation plan and wait for my approval before modifying application files.**
+
+After implementation, provide a summary of changes, screenshots, test results, and any remaining issues.
+
+Do not commit until I approve the result.

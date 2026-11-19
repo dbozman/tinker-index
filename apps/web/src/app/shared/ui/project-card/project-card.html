@@ -14,19 +14,10 @@
     <h3 class="project-card__title">{{ project().title }}</h3>
     <p class="project-card__summary">{{ project().summary }}</p>
 
-    <dl class="project-card__facts">
-      <div>
-        <dt>Difficulty</dt>
-        <dd>{{ difficultyLabel() }}</dd>
-      </div>
-      <div>
-        <dt>Est. cost</dt>
-        <dd>{{ costLabel() }}</dd>
-      </div>
-      <div>
-        <dt>Build time</dt>
-        <dd>{{ durationLabel() }}</dd>
-      </div>
-    </dl>
+    <ul class="project-card__chips" aria-label="Project estimates">
+      <li>{{ difficultyLabel() }}</li>
+      <li>{{ costLabel() }}</li>
+      <li>{{ durationLabel() }}</li>
+    </ul>
   </div>
 </article>

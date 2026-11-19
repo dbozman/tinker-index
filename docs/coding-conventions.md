@@ -1,6 +1,6 @@
 # Coding conventions
 
-Project-wide guidelines for Tinker Index. Aligns with [`AGENTS.md`](../AGENTS.md) and [`architecture.md`](architecture.md).
+Project-wide guidelines for Tinker Index. Aligns with [`AGENTS.md`](../AGENTS.md), [`architecture.md`](architecture.md), and [`style-guide.md`](style-guide.md).
 
 ## TypeScript
 
@@ -21,7 +21,7 @@ Project-wide guidelines for Tinker Index. Aligns with [`AGENTS.md`](../AGENTS.md
 - Standalone components only.
 - Feature areas with lazy-loaded routes when features exist.
 - Hybrid rendering via `app.routes.server.ts` (`RenderMode`).
-- SCSS with CSS variables for brand tokens (Milestone 3+).
+- Public UI follows [`style-guide.md`](style-guide.md) (Maker Discovery). Implement brand colors, type, spacing, and component patterns via shared SCSS/CSS variables — do not introduce a competing theme.
 - Angular Material only for admin/forms/dialogs — not the public visual identity.
 - No global state library unless requirements justify it.
 - Unit tests with Vitest (`ng test`).

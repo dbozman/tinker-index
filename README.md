@@ -2,7 +2,7 @@
 
 Discover your next DIY project.
 
-AI-powered DIY project discovery platform. Architecture: [`docs/architecture.md`](docs/architecture.md). Agent instructions: [`AGENTS.md`](AGENTS.md).
+AI-powered DIY project discovery platform. Architecture: [`docs/architecture.md`](docs/architecture.md). Visual design: [`docs/style-guide.md`](docs/style-guide.md). Agent instructions: [`AGENTS.md`](AGENTS.md).
 
 ## Stack
 
@@ -25,7 +25,7 @@ apps/worker              Background job entry point
 packages/contracts       Shared types / contracts
 infra/mac-mini-db        Compose template for Mac mini Postgres
 scripts/                 SSH tunnel / remote DB helpers
-docs/                    Architecture, plan, ADRs, conventions
+docs/                    Architecture, style guide, plan, ADRs, conventions
 docker-compose.yml       Optional local Postgres (if a local Docker engine exists)
 ```
 

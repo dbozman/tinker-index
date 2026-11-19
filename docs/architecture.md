@@ -218,6 +218,8 @@ Use Angular with standalone components and the framework's supported server-rend
 
 Use SCSS for application styling.
 
+Public website visual design, branding, typography, color tokens, and UI patterns are defined in [`style-guide.md`](style-guide.md). Treat that document as the visual source of truth; implement it through shared semantic SCSS/CSS variables rather than ad hoc component colors.
+
 Use Angular Material selectively for accessible controls, administrative interfaces, dialogs, and forms.
 
 Avoid allowing the default Angular Material appearance to dictate the public website's visual identity.
@@ -968,6 +970,7 @@ tinker-index/
 │
 ├── docs/
 │   ├── architecture.md
+│   ├── style-guide.md
 │   ├── implementation-plan.md
 │   └── decisions/
 │
@@ -1157,7 +1160,7 @@ Implement:
 
 Implement:
 
-- Visual design foundation.
+- Visual design foundation per [`style-guide.md`](style-guide.md).
 - Home page.
 - Project listing.
 - Project details.
@@ -1317,7 +1320,7 @@ The following choices must be confirmed before their corresponding implementatio
 6. Initial category taxonomy and tag conventions.
 7. AI provider and model assignments by workload.
 8. Exact source ingestion policies and licensing evidence requirements.
-9. Application visual design and branding.
+9. Application visual design and branding — resolved in [`style-guide.md`](style-guide.md) (Maker Discovery).
 10. Budget limits for hosting and AI operations.
 11. Local and staging environment requirements.
 12. Detailed data model and API contracts.
@@ -1336,18 +1339,19 @@ When using Cursor or other AI coding tools:
 
 1. Read this document before implementation.
 2. Follow the approved technology decisions.
-3. Avoid introducing frameworks or services not justified by requirements.
-4. Work in small, verifiable milestones.
-5. Explain proposed architectural deviations before implementing them.
-6. Write tests for important business logic.
-7. Preserve clean module boundaries.
-8. Never hardcode credentials.
-9. Never give agents unrestricted production database access.
-10. Protect SEO and server rendering throughout frontend development.
-11. Distinguish source facts from AI-derived estimates.
-12. Respect copyright and media licensing constraints.
-13. Do not implement future enhancements during the MVP unless explicitly requested.
-14. Do not begin the next milestone before the current one is verified.
+3. For public website UI and branding, follow [`style-guide.md`](style-guide.md); do not invent a competing visual system.
+4. Avoid introducing frameworks or services not justified by requirements.
+5. Work in small, verifiable milestones.
+6. Explain proposed architectural deviations before implementing them.
+7. Write tests for important business logic.
+8. Preserve clean module boundaries.
+9. Never hardcode credentials.
+10. Never give agents unrestricted production database access.
+11. Protect SEO and server rendering throughout frontend development.
+12. Distinguish source facts from AI-derived estimates.
+13. Respect copyright and media licensing constraints.
+14. Do not implement future enhancements during the MVP unless explicitly requested.
+15. Do not begin the next milestone before the current one is verified.
 
 ### Development quality standard
 
